@@ -15,12 +15,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/vacaciones', function(req, res) {
-  console.log(req.body);
-  req.body.queryResult.fulfillmentMessages[0].text.text = ["bueno chao"];
-  console.log("xxxxxxxxxxxxxxxxxxxxxx", req.body);
-   res.send({
-     req
-   });
+  //console.log(req.body);
+  //req.body.queryResult.fulfillmentMessages[0].text.text = ["bueno chao"];
+  console.log("xxxxxxxxxxxxxxxxxxxxxx", req.body.queryResult.fulfillmentMessages[0].text.text = ['borraloooooooo el mio']);
+   res.send(req.body);
 });
 
 app.use(router);
