@@ -19,7 +19,7 @@ router.post('/vacaciones', function(req, res) {
   //req.body.queryResult.fulfillmentMessages[0].text.text = ["bueno chao"];
   console.log(req.body.queryResult);
    res.send({
-      "fulfillmentText": "This is a text response",
+      "fulfillmentText": "esta es la respuesta del API",
   });
 });
 
