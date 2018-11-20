@@ -16,8 +16,9 @@ router.get('/', function(req, res) {
 
 router.post('/vacaciones', function(req, res) {
   console.log(req.body);
+  req.queryResult.fulfillmentMessages[0].text.text ["bueno chao"];
    res.send({
-     respuesta: 'jajajajaj'
+     req
    });
 });
 
