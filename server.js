@@ -18,8 +18,14 @@ router.post('/vacaciones', function(req, res) {
   //console.log(req.body);
   //req.body.queryResult.fulfillmentMessages[0].text.text = ["bueno chao"];
   console.log("xxxxxxxxxxxxxxxxxxxxxx", req.body.queryResult.fulfillmentMessages[0].text.text = ['borraloooooooo el mio']);
-   res.send({"speech":"taaran", "displayText": 'Currently I am not having information about this team',
-                "source": 'team info'});
+   res.send({
+  "platform": "ACTIONS_ON_GOOGLE",
+  "text": {
+    "text": [
+      "la respuesta papa"
+    ]
+  }
+});
 });
 
 app.use(router);
