@@ -19,13 +19,8 @@ router.post('/vacaciones', function(req, res) {
   //req.body.queryResult.fulfillmentMessages[0].text.text = ["bueno chao"];
   console.log("xxxxxxxxxxxxxxxxxxxxxx", req.body.queryResult.fulfillmentMessages[0].text.text = ['borraloooooooo el mio']);
    res.send({
-  "platform": "ACTIONS_ON_GOOGLE",
-  "text": {
-    "text": [
-      "la respuesta papa"
-    ]
-  }
-});
+      "fulfillmentText": "This is a text response",
+  });
 });
 
 app.use(router);
