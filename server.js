@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 router.post('/vacaciones', function(req, res) {
   //console.log(req.body);
   //req.body.queryResult.fulfillmentMessages[0].text.text = ["bueno chao"];
-  console.log(req.body);
+  console.log(req.body.originalDetectIntentRequest.payload.data);
    res.send({
       "fulfillmentText": "esta es la respuesta del API",
   });
