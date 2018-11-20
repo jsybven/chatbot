@@ -3,7 +3,7 @@ var express = require("express"),
     bodyParser  = require("body-parser"),
     methodOverride = require("method-override");
   //  mongoose = require('mongoose');
-
+const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride());
@@ -23,6 +23,6 @@ router.post('/vacaciones', function(req, res) {
 
 app.use(router);
 
-app.listen(3200, function() {
-  console.log("Node server running on http://localhost:3000");
+app.listen(PORT, function() {
+  console.log("Node server running on http://localhost:" + PORT);
 });
