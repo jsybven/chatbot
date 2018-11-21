@@ -1,10 +1,9 @@
 const express = require("express"),
       app = express(),
       bodyParser  = require("body-parser"),
-      methodOverride = require("method-override"),
-      https = require('https'),
-      request = require('request'),
-      requestController = require('./controller/requestController.js');
+      methodOverride = require("method-override");
+      //request = require('request'),
+    //  requestController = require('./controller/requestController.js');
 
   //  mongoose = require('mongoose');
 const PORT = process.env.PORT || 3100
