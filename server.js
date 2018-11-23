@@ -23,12 +23,11 @@ router.post('/bot', function(req, res) {
   // token virtualmind  'xoxp-42109645268-466940612869-485366849493-6652ad826a2671ed53e9f2b29482f445';
   let param = {
     'user': req.body.originalDetectIntentRequest.payload.data.user,
-    'token': 'xoxp-480772759907-481075144165-485049310931-32480f6dc3cd056b54dc59533a3587eb',
+    'token': 'xoxp-480772759907-481075144165-486968715861-2a946dd746f634497175aeda9cad3066',
     'intent': req.body.queryResult.intent.displayName,
     'fulfillmentText': req.body.queryResult.fulfillmentText
   };
-
-//  requestController.callAPI(param, res);
+   requestController.callAPI(param, res);
 });
 
 app.use(router);

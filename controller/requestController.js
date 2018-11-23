@@ -7,7 +7,7 @@ const request = require('request');
 };
 
 function saludo  (param, callback)  {
-/*  request.get(`https://slack.com/api/users.info?token=${param.token}&user=${param.user}&pretty=1`, { json: true }, (err, resp, body) => {
+  request.get(`https://slack.com/api/users.info?token=${param.token}&user=${param.user}&pretty=1`, { json: true }, (err, resp, body) => {
      if (err || !body.user) {
         fulfillmentText.fulfillmentText = param.fulfillmentText.replace(' ${name}', '');
         callback.send(fulfillmentText);
@@ -15,7 +15,7 @@ function saludo  (param, callback)  {
      }
      fulfillmentText.fulfillmentText = param.fulfillmentText.replace('${name}', body.user.real_name);
      callback.send(fulfillmentText);
-  });*/
+  });
 }
 
 const fulfillmentText = {
