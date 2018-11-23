@@ -5,7 +5,7 @@ const express = require("express"),
       //request = require('request');
 
 const      requestController = require('controller/requestController.js');
-app.use(express.static(path.join(__dirname, 'css')));
+
   //  mongoose = require('mongoose');
 const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
