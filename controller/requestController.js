@@ -1,4 +1,4 @@
-//const request = require('request');
+const request = require('request');
 
  const  callAPI = (param, callback) => {
     if (param.intent === 'saludo') {
