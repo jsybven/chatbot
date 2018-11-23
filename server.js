@@ -28,7 +28,7 @@ router.post('/bot', function(req, res) {
     'fulfillmentText': req.body.queryResult.fulfillmentText
   };
 
-  requestController.callAPI(param, res);
+//  requestController.callAPI(param, res);
 });
 
 app.use(router);
