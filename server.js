@@ -20,14 +20,30 @@ router.get('/', function(req, res) {
 
 router.post('/bot', function(req, res) {
   // console.log(req.body.originalDetectIntentRequest.payload.data);
-  // token virtualmind  'xoxp-42109645268-466940612869-485366849493-6652ad826a2671ed53e9f2b29482f445';
+  const action = req.body.queryResult.action;
+  const textInput = req.body.queryResult.fulfillmentText;
   let param = {
     'user': req.body.originalDetectIntentRequest.payload.data.user,
     'token': 'xoxp-480772759907-481075144165-486968715861-2a946dd746f634497175aeda9cad3066',
-    'intent': req.body.queryResult.intent.displayName,
-    'fulfillmentText': req.body.queryResult.fulfillmentText
+    'module': (action.indexOf('/') >-1) ? action.split('/')[0] : action,
+    'action': (action.indexOf('/') >-1) ? action.split('/')[1] : action,
+    textInput,
+    'keyResponse': 'fulfillmentText',
+  /*  'response': {
+      'fulfillmentText': ''
+    },*/
+    'response': (replace, params) => {
+      let response = {
+        'fulfillmentText': ''
+      };
+      for (let x = 0, n = replace.length; x < n; x++ ) {
+        response['fulfillmentText'] = textInput.replace((new RegExp(replace[x], 'g') ), params[x]);
+      }
+      res.send(response);
+    }
   };
-   requestController.callAPI(param, res);
+  require('./service/'+ param.module +'Service').controller(param, res);
+  // requestController.callAPI(param, res);
 });
 
 app.use(router);
