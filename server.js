@@ -39,6 +39,7 @@ router.post('/bot', function(req, res) {
       for (let x = 0, n = replace.length; x < n; x++ ) {
         response['fulfillmentText'] = textInput.replace((new RegExp(replace[x], 'g') ), params[x]);
       }
+      console.log(textInput);
       res.send(response);
     }
   };
