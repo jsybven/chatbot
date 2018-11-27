@@ -1,4 +1,6 @@
 const request = require('request');
+const {slackInfo} = require('./utilityService.js');
+const {response} = require('../assets/helper.js');
 
 const  controller = (param, callback) => {
     if(apis[param.action]) {
@@ -9,31 +11,18 @@ const  controller = (param, callback) => {
 };
 
 const apis = {
-  solicitar: er(param, callback (param, callback) => {
-     request.get(`https://slack.com/api/users.info?token=${param.token}&user=${param.user}&pretty=1`, { json: true }, (err, resp, body) => {
-        if (err || !body.user) {
-          param.response([', %name%'], ['']);
-           return;
-        }
-        //callback.send("en estos momentos no podemos procesar tu solicitud intente mas tarde");
-          console.log(body.user.profile.email);
-        param.response(['%name%'], [body.user.real_name]);
+  Solicitar: (param, callback) => {
+    slackInfo(param, callback, (param, callback) => {
+      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      const parameters = param.parameters;
+        //if (param.email) {
+          response(['%parametros'], [`estos son los parametros: ${parameters.dateFrom}, ${parameters.dateTo}`], param.inputText, callback);
+      /*  } else {
+          response([', %name%'], [''], param.inputText, callback);
+        }*/
      });
-   )
- }
+  }
 };
-
-const er = (param, callback, function ) => {
-  request.get(`https://slack.com/api/users.info?token=${param.token}&user=${param.user}&pretty=1`, { json: true }, (err, resp, body) => {
-     if (err || !body.user) {
-        callback.send("En estos momentos no podemos procesar tu solicitud. Por fabor intente más tarde");
-        return;
-     }
-     param.email = body.user.profile.emailñ
-     param.name = body.user.real_name
-     function(param, callback);
-  });
-}
 
 //  param.response[param.keyResponse] = param.fulfillmentText.replace('/*name*/', body.user.real_name);
 //  callback.send(param.response);
