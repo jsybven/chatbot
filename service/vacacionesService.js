@@ -11,7 +11,7 @@ const  controller = (param, callback) => {
 };
 
 const apis = {
-  Solicitar: (param, callback) => {
+  solicitar: (param, callback) => {
     slackInfo(param, callback, (param, callback) => {
       // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
       const parameters = param.parameters;
