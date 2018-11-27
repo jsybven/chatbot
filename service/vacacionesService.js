@@ -21,6 +21,27 @@ const apis = {
           response([', %name%'], [''], param.inputText, callback);
         }*/
      });
+  },
+  cancelar: (param, callback) => {
+    slackInfo(param, callback, (param, callback) => {
+      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      const parameters = param.parameters;
+      response(['%parametros'], [`estos son los parametros: ${param.userEmail}`], param.inputText, callback);
+     });
+  },
+  diasDisponible: (param, callback) => {
+    slackInfo(param, callback, (param, callback) => {
+      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      const parameters = param.parameters;
+      response(['%dias'], [`5`], param.inputText, callback);
+     });
+  },
+  estadoVacaciones: (param, callback) => {
+    slackInfo(param, callback, (param, callback) => {
+      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      const parameters = param.parameters;
+      response(['%estado'], [`rechazado`], param.inputText, callback);
+     });
   }
 };
 
