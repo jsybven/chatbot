@@ -11,13 +11,15 @@ const  controller = (param, callback) => {
 };
 
 const apis = {
-  saludo: (param, callback) => {
+  Solicitar: (param, callback) => {
     slackInfo(param, callback, (param, callback) => {
-        if (param.userName) {
-          response(['%name%'], [param.userName], param.inputText, callback);
-        } else {
+      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      const parameters = param.parameters;
+        //if (param.email) {
+          response(['%parametros'], [`estos son los parametros: ${parameters.dateFrom}, ${parameters.dateTo}`], param.inputText, callback);
+      /*  } else {
           response([', %name%'], [''], param.inputText, callback);
-        }
+        }*/
      });
   }
 };
