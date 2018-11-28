@@ -42,7 +42,9 @@ router.post('/bot', function(req, res) {
 
 router.post('/slacky', function(req, res) {
     console.log(req.body);
-    res.send("respuestaaaaaa");
+    res.send({
+    "challenge": "QnU01CaZhdhexiNF7jXy9WDLlxLrXiBhdr6bPOyZNlahMkgj88Hy"
+});
 });
 
 app.use(router);
