@@ -21,7 +21,7 @@ router.post('/bot', function(req, res) {
   // console.log(req.body.originalDetectIntentRequest.payload.data);
   const action = req.body.queryResult.action;
 
-  console.log(req);
+  console.log(req.body);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   console.log(req.body.originalDetectIntentRequest.payload.data);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -38,6 +38,11 @@ router.post('/bot', function(req, res) {
   };
   require('./service/'+ param.module +'Service').controller(param, res);
   // requestController.callAPI(param, res);
+});
+
+router.post('/slacky', function(req, res) {
+    console.log(req.body);
+    res.send("respuestaaaaaa");
 });
 
 app.use(router);
