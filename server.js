@@ -20,6 +20,7 @@ router.get('/', function(req, res) {
 router.post('/bot', function(req, res) {
   // console.log(req.body.originalDetectIntentRequest.payload.data);
   const action = req.body.queryResult.action;
+  console.log("hola");
   console.log(req.body);
   let param = {
     'user': req.body.originalDetectIntentRequest.payload.data.user,
