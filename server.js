@@ -22,8 +22,11 @@ router.post('/bot', function(req, res) {
   const action = req.body.queryResult.action;
 
   console.log(req.body);
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   console.log(req.body.originalDetectIntentRequest.payload.data);
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   console.log(req.body.queryResult.fulfillmentMessages);
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   let param = {
     'user': req.body.originalDetectIntentRequest.payload.data.user,
     'token': 'xoxp-480772759907-481075144165-488563309525-c99d9da4f3e6501b79335f387cb30ff',
