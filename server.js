@@ -21,11 +21,11 @@ router.post('/bot', function(req, res) {
   // console.log(req.body.originalDetectIntentRequest.payload.data);
   const action = req.body.queryResult.action;
 
-  console.log(req.body);
+  console.log(req);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   console.log(req.body.originalDetectIntentRequest.payload.data);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-  console.log(req.body.queryResult.fulfillmentMessages);
+  console.log(req.body.queryResult.fulfillmentMessages.text.text);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   let param = {
     'user': req.body.originalDetectIntentRequest.payload.data.user,
