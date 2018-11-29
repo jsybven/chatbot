@@ -32,7 +32,7 @@ router.post('/bot', function(req, res) {
     'token': 'xoxp-480772759907-481075144165-488563309525-c99d9da4f3e6501b79335f387cb30ff',
     'module': (action.indexOf('/') >-1) ? action.split('/')[0] : action,
     'action': (action.indexOf('/') >-1) ? action.split('/')[1] : action,
-    'inputText': req.body.queryResult.fulfillmentText,
+    'inputText': req.body.queryResult.fulfillmentText || req.body.queryResult.queryText,
     'keyResponse': 'fulfillmentText',
     'parameters': req.body.queryResult.parameters
   };
