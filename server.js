@@ -55,7 +55,7 @@ let options = {
 
     if(req.body.event.files){
     //  options.url = 'https://slack.com/api/files.sharedPublicURL?token=xoxp-480772759907-491402602871-489773073057-bc6e624cb454a27b47a9ea161a1a1dbb&file='+req.body.event.files+'&pretty=1'
-      console.log('*******'+req.body.event.files);
+      console.log('*******',req.body.event.files);
     /*  request(options, function(reqs, resp) {
         console.log('@@@@@@@');
         console.log(resp.body);
