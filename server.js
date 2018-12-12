@@ -56,24 +56,28 @@ let options = {
     if(req.body.event.files){
     //  if(req.body.event.files[0].length) {
     //  options.url = 'https://slack.com/api/files.sharedPublicURL?token=xoxp-480772759907-491402602871-489773073057-bc6e624cb454a27b47a9ea161a1a1dbb&file='+req.body.event.files[0].id+'&pretty=1'
-      console.log('*******',req.body.event.files[0]);
-      req.body.event.text = req.body.event.files[0].permalink_public ;
-      options.form.body = req.body;
+      console.log('*******',options.form);
+      options.form.event.text = req.body.event.files[0].permalink_public;
     //  options.url = 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook';
-      console.log(options);
+    //  console.log(options);
   /*    request(options, function(reqs, resp) {
         console.log('#######');
         console.log(resp.body);
 
       });*/
 //}
+request(options,  function(reqs, resp) {
+/*  console.log('@@@@@@@');*/
+  console.log(resp.body);
+
+});
     } else {
       console.log(req.body);
     }
     request(options,  function(reqs, resp) {
-    /*  console.log('@@@@@@@');
+    /*  console.log('@@@@@@@');*/
       console.log(resp.body);
-*/
+
     });
     res.send({
       "challenge": req.body.challenge
