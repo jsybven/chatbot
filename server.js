@@ -55,7 +55,7 @@ let options = {
 
     if(req.body.event.files){
     //  if(req.body.event.files[0].length) {
-      options.url = 'https://slack.com/api/files.sharedPublicURL?token=xoxp-480772759907-491402602871-502201954435-009b8871c0cbacd11ff4b755839bbf8c&file='+req.body.event.files[0].id+'&pretty=1'
+      options.url = 'https://slack.com/api/files.sharedPublicURL?token=xoxp-480772759907-491402602871-502201954435-009b8871c0cbacd11ff4b755839b&file='+req.body.event.files[0].id+'&pretty=1'
       console.log('*******',options.form);
       options.form.event.text = req.body.event.files[0].permalink_public;
 
