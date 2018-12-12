@@ -60,7 +60,7 @@ let options = {
       req.body.event.text = req.body.event.files[0].permalink_public ;
       options.form.body = req.body;
     //  options.url = 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook';
-    //  console.log(options);
+      console.log(options);
   /*    request(options, function(reqs, resp) {
         console.log('#######');
         console.log(resp.body);
@@ -70,9 +70,10 @@ let options = {
     } else {
       console.log(req.body);
     }
-    request.post('https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook', req.body, function(reqs, resp) {
+    request(options,  function(reqs, resp) {
     /*  console.log('@@@@@@@');
-      console.log(resp.body);*/
+      console.log(resp.body);
+*/
     });
     res.send({
       "challenge": req.body.challenge
