@@ -6,6 +6,7 @@ const express = require("express"),
 
 const requestController = require('./controller/requestController.js');
 
+
 const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -42,9 +43,16 @@ router.post('/bot', function(req, res) {
 
 router.post('/slacky', function(req, res) {
     console.log(req.body);
+    router.post('https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook', function(reqs, resp) {
+      console.log('@@@@@@@');
+      console.log(resp.body);
+      resp.send({
+        "challenge": 'exito'
+      });
+    });
     res.send({
-    "challenge": req.body.challenge
-});
+      "challenge": req.body.challenge
+    });
 });
 
 app.use(router);
