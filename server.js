@@ -63,9 +63,9 @@ var options = {
     request(options, function(reqs, resp) {
       console.log('@@@@@@@');
       console.log(resp.body);
-      resp.send({
+    /*  resp.send({
         "challenge": 'exito'
-      });
+      });*/
     });
     res.send({
       "challenge": req.body.challenge
