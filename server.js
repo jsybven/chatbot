@@ -55,16 +55,16 @@ let options = {
 
     if(req.body.event.files){
     //  if(req.body.event.files[0].length) {
-    //  options.url = 'https://slack.com/api/files.sharedPublicURL?token=xoxp-480772759907-491402602871-489773073057-bc6e624cb454a27b47a9ea161a1a1dbb&file='+req.body.event.files[0].id+'&pretty=1'
+      options.url = 'https://slack.com/api/files.sharedPublicURL?token=xoxp-480772759907-491402602871-502201954435-009b8871c0cbacd11ff4b755839bbf8c&file='+req.body.event.files[0].id+'&pretty=1'
       console.log('*******',options.form);
       options.form.event.text = req.body.event.files[0].permalink_public;
-    //  options.url = 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook';
+
     //  console.log(options);
-  /*    request(options, function(reqs, resp) {
+      request(options, function(reqs, resp) {
         console.log('#######');
         console.log(resp.body);
-
-      });*/
+      });
+      options.url = 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook';
 //}
 request(options,  function(reqs, resp) {
 /*  console.log('@@@@@@@');*/
