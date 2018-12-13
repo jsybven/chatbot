@@ -6,7 +6,7 @@ const express = require("express"),
       fs = require('fs');
 
 const requestController = require('./controller/requestController.js');
-const token = 'xoxp-480772759907-491402602871-502468906577-86f30f8eba54460d6b78c709c66b356c';
+const token = 'xoxp-480772759907-491402602871-502468906577-86f30f8eba54460d6b78c709c66b35';
 
 const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
