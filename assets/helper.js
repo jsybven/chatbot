@@ -1,9 +1,12 @@
-const response =  (replace, params, inputText, callback) => {
+const response =  (replace, params, paramService, callback) => {
   let response = {
-    'fulfillmentText': ''
+    'fulfillmentText': '',
+    'outputContexts': [paramService.outputContexts[ paramService.outputContexts.length-1]]
+
   };
+//  console.log('xxxxxxxxxxxxxxx',  paramService);
   for (let x = 0, n = replace.length; x < n; x++ ) {
-    response['fulfillmentText'] = inputText.replace((new RegExp(replace[x] || '', 'g') ), params[x]);
+    response['fulfillmentText'] =  paramService.inputText.replace((new RegExp(replace[x] || '', 'g') ), params[x]);
   }
   callback.send(response);
 };
