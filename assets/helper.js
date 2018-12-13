@@ -1,7 +1,7 @@
 const response =  (replace, params, paramService, callback) => {
   let response = {
     'fulfillmentText': '',
-    'outputContexts': [paramService.outputContexts[ paramService.outputContexts.length-1]]
+    'outputContexts': ''
 
   };
 //  console.log('xxxxxxxxxxxxxxx',  paramService);
