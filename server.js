@@ -25,12 +25,12 @@ router.post('/bot', function(req, res) {
 
   console.log(req.body);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-  console.log(req.body.originalDetectIntentRequest.payload.data);
+//  console.log(req.body.originalDetectIntentRequest.payload.data);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 /*  console.log(req.body.queryResult.fulfillmentMessages);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");*/
   let param = {
-    'user': req.body.originalDetectIntentRequest.payload.data.user,
+    'user': 'el jean', // req.body.originalDetectIntentRequest.payload.data.user,
     token,
     'module': (action.indexOf('/') >-1) ? action.split('/')[0] : action,
     'action': (action.indexOf('/') >-1) ? action.split('/')[1] : action,
