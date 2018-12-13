@@ -6,7 +6,7 @@ const express = require("express"),
       fs = require('fs');
 
 const requestController = require('./controller/requestController.js');
-const token = 'xoxp-480772759907-491402602871-502468906577-86f30f8eba54460d6b78c709c66b35';
+const token = 'xoxp-480772759907-491402602871-503181399859-26d1482f01cb7f8f9e7c77e7919c41a8';
 
 const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -52,8 +52,9 @@ router.post('/slacky', function(req, res) {
       const linkDownload = req.body.event.files[0].permalink_public.split('/')[3].split('-');
       const fileName = req.body.event.files[0].name.toLowerCase().replace(/ /g, '_');
       body.form.event.text = `https://files.slack.com/files-pri/${linkDownload[0]}-${linkDownload[1]}/${fileName}?pub_secret=${linkDownload[2]}`;
-
+      console.log(body.form.event.text);
       request.get('https://slack.com/api/files.sharedPublicURL?token=' + token + '&file='+req.body.event.files[0].id+'&pretty=1', function(reqs, resp) {
+        console.log(resp.body);
         request.get(body.form.event.text).on( 'response', function( res ){
             res.pipe(fs.createWriteStream( './temp/' + fileName ));
          });
