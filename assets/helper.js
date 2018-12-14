@@ -10,7 +10,7 @@ const response =  (replace, params, paramService, callback) => {
    //  response['fulfillmentText'] =  paramService.inputText.replace((new RegExp(replace[x] || '', 'g') ), params[x]);
    paramService.todo.queryResult.parameters =  paramService.inputText.replace((new RegExp(replace[x] || '', 'g') ), params[x]);
   }
-  callback.send(paramService.todo);
+  callback.send(paramService.todo.queryResult);
 };
 
 module.exports = {response}
