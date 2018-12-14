@@ -37,7 +37,8 @@ router.post('/bot', function(req, res) {
     'inputText': req.body.queryResult.fulfillmentText || "ocurrior un error",
     'keyResponse': 'fulfillmentText',
     'parameters': req.body.queryResult.parameters,
-    'outputContexts': req.body.queryResult.outputContexts
+    'outputContexts': req.body.queryResult.outputContexts,
+    'todo': req.body
   };
   require('./service/'+ param.module +'Service').controller(param, res);
   // requestController.callAPI(param, res);

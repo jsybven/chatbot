@@ -16,7 +16,7 @@ const apis = {
       // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
       const parameters = param.parameters;
         //if (param.email) {
-          response(['%parametros'], [`estos son los parametros: ${parameters.date}`], param.inputText, callback);
+          response(['%parametros'], [`estos son los parametros: ${parameters.date}`], param, callback);
       /*  } else {
           response([', %name%'], [''], param.inputText, callback);
         }*/
