@@ -5,7 +5,7 @@ const response =  (replace, params, paramService, callback) => {
   "languageCode": "en"
 
   };
-  response.outputContexts[0].lifespanCount = 0;
+  //response.outputContexts[0].lifespanCount = 0;
   //delete paramService.todo.queryResult.outputContexts;
   console.log('xxxxxxxxxxxxxxx', response);
   for (let x = 0, n = replace.length; x < n; x++ ) {
