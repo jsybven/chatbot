@@ -14,9 +14,9 @@ const apis = {
   saludo: (param, callback) => {
     slackInfo(param, callback, (param, callback) => {
         if (param.userName) {
-          response(['%name%'], [param.userName], param, callback);
+          response(['%name'], [param.userName], param, callback);
         } else {
-          response([', %name%'], [''], param.inputText, callback);
+          response([', %name'], [''], param, callback);
         }
      });
   }
