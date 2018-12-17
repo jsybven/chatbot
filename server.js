@@ -19,6 +19,14 @@ router.get('/', function(req, res) {
    res.send("Hello World!");
 });
 
+
+
+
+
+
+
+
+
 router.post('/bot', function(req, res) {
   // console.log(req.body.originalDetectIntentRequest.payload.data);
   const action = req.body.queryResult.action;
@@ -43,6 +51,22 @@ router.post('/bot', function(req, res) {
   require('./service/'+ param.module +'Service').controller(param, res);
   // requestController.callAPI(param, res);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.post('/slacky', function(req, res) {
   let body = {
