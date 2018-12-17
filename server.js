@@ -61,19 +61,12 @@ router.post('/bot', function(req, res) {
 
 
 
-
-
-
-
-
-
-
 router.post('/slacky', function(req, res) {
   let body = {
       url: 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook',
       form: req.body
   }
-
+console.log( req.body);
   if(req.body.event.upload){
       const linkDownload = req.body.event.files[0].permalink_public.split('/')[3].split('-');
       const fileName = req.body.event.files[0].name.toLowerCase().replace(/ /g, '_');
@@ -85,7 +78,26 @@ router.post('/slacky', function(req, res) {
             res.pipe(fs.createWriteStream( './temp/' + fileName ));
          });
       });
-  }
+  }/*
+const cuerpo = {
+  url: 'https://dialogflow.googleapis.com/v2/projects/newagent-a6d67/agent/sessions/d81e3c6d-3e7c-e501-adc5-dc4a83ca3ce9:detectIntent',
+  body: {"queryInput":{
+	"text":{"text":"hi","languageCode":"en"}
+	}
+},
+headers: {
+  Authorization: "Authorization: Bearer ya29.c.Elp1BrYQjumhuCL04qvmNvcsvge7xk-VoUX4xujO26pO7ypC_SMv6K7d7rH0Dao9S6u0vHCiPNTxEEgCLRVN1UBO9iSQE_sXx9Q9ftu0duzPBcsVWv_Ht4CylYU",
+  "Content-Type": "application/json"
+}
+}
+
+request.post(cuerpo, function(error, response, body){
+  if (!error && response.statusCode == 200) {
+      // Print out the response body
+      console.log(body)
+  } else
+  console.log("maaaaaaaaaaaaal");
+});*/
   request.post(body);
   res.send({
     "challenge": req.body.challenge

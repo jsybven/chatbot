@@ -1,8 +1,7 @@
 const response =  (replace, params, paramService, callback) => {
   let response = {
-    'fulfillmentText': 'tataatt',
+    'fulfillmentText': 'tataatt'
   //  'outputContexts': [paramService.outputContexts[ paramService.outputContexts.length-1]]
-  "languageCode": "en"
 
   };
   //response.outputContexts[0].lifespanCount = 0;
