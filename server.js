@@ -4,7 +4,76 @@ const express = require("express"),
       methodOverride = require("method-override"),
       request = require('request'),
       fs = require('fs');
+/*      const Botkit = require('botkit');
+      const dialogflowMiddleware = require('botkit-middleware-dialogflow')({
+        keyFilename: './newagent-a6d67-08f5e56ab751.json'  // service account private key file from Google Cloud Console
+      });
 
+
+      const slackController = Botkit.slackbot();
+      const slackBot = slackController.spawn({
+        token: 'xoxp-480772759907-491402602871-506513767265-3d841a968448e3a8987125d3b5c5ea52',  // Slack API Token
+      });
+
+      slackController.middleware.receive.use(dialogflowMiddleware.receive);
+      slackBot.startRTM();
+      console.log(slackController);
+      slackController.hears('hello-intent', 'direct_message', dialogflowMiddleware.hears, function(bot, message) {
+        console.log("DSFdfd");
+      });
+*/
+
+
+
+
+
+      /*
+      const dialogflow = require('dialogflow');
+const sessionClient = new dialogflow.SessionsClient();
+
+// Define session path
+const sessionPath = sessionClient.sessionPath("newagent-a6d67", "d81e3c6d-3e7c-e501-adc5-dc4a83ca3ce9");
+console.log(sessionPath);
+curl -H "Content-Type: application/json; charset=utf-8"  -H "Authorization: Bearer ya29.c.Elp2BnssTCcsettfwcL5qk2YOkRIn70YIE1Clhd2OLHc_a09uEuo9sE7PrFU5kZEtM8O6YxSOVtP2my7eMLPgTMaJfXY5ekoUMUjvcYYxcbdm58dQtHQ68t0zv4"  -d "{\"queryInput\":{\"text\":{\"text\":\"hi\",\"languageCode\":\"es\"}},\"queryParams\":{\"timeZone\":\"America/Buenos_Aires\"}}" "https://dialogflow.googleapis.com/v2beta1/projects/newagent-a6d67/agent/sessions/d81e3c6d-3e7c-e501-adc5-dc4a83ca3ce9:detectIntent"
+sessionClient
+  .detectIntent({
+  "session": sessionPath,
+	"queryInput":{
+	"text":{"text":"hi", "languageCode":"en"}
+	},
+	"queryParams": {
+
+           "payload": {
+    	"data": {
+		    "client_msg_id": "f7723fa8-a99b-4c17-a943-61c27dcab25b",
+			"event_ts": "1542745438.007900",
+			"channel": "DE7763PV4",
+			"text": "hi",
+			"type": "message",
+			"channel_type": "im",
+			"user": "UE527484V",
+			"ts": "1542745438.007900"
+    	}
+	}
+
+        }
+}
+)
+  .then(responses => {
+    console.log('Detected intent');
+    const result = responses[0].queryResult;
+    console.log(`  Query: ${result.queryText}`);
+    console.log(`  Response: ${result.fulfillmentText}`);
+    if (result.intent) {
+      console.log(`  Intent: ${result.intent.displayName}`);
+    } else {
+      console.log(`  No intent matched.`);
+    }
+  })
+  .catch(err => {
+    console.error('ERROR:', err);
+  });
+*/
 const requestController = require('./controller/requestController.js');
 const token = 'xoxp-480772759907-491402602871-503248437139-596aa4e92ed76024a9ac65c2d5f0ce53';
 
@@ -33,7 +102,7 @@ router.post('/bot', function(req, res) {
 
   console.log(req.body);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-//  console.log(req.body.originalDetectIntentRequest.payload.data);
+  console.log(req.body.originalDetectIntentRequest.payload.data);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 /*  console.log(req.body.queryResult.fulfillmentMessages);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");*/
@@ -67,7 +136,7 @@ router.post('/slacky', function(req, res) {
       form: req.body
   }
 console.log( req.body);
-  if(req.body.event.upload){
+/*  if(req.body.event.upload){
       const linkDownload = req.body.event.files[0].permalink_public.split('/')[3].split('-');
       const fileName = req.body.event.files[0].name.toLowerCase().replace(/ /g, '_');
       body.form.event.text = `https://files.slack.com/files-pri/${linkDownload[0]}-${linkDownload[1]}/${fileName}?pub_secret=${linkDownload[2]}`;
