@@ -139,7 +139,7 @@ router.post('/slacky', function(req, res) {
   }
 console.log( req.body);
 console.log( "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-console.log( res.body);
+//console.log( res.body);
 /*  if(req.body.event.upload){
       const linkDownload = req.body.event.files[0].permalink_public.split('/')[3].split('-');
       const fileName = req.body.event.files[0].name.toLowerCase().replace(/ /g, '_');
@@ -180,7 +180,7 @@ request.post(cuerpo, function(error, response, body){
 router.get('/slacky', function(req, res) {
   console.log(req.body);
   console.log("********************");
-  console.log(res.body);
+  //console.log(res);
   res.send({
   });
 });
