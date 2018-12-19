@@ -6,13 +6,13 @@ const express = require("express"),
       fs = require('fs');
 /*      const Botkit = require('botkit');
       const dialogflowMiddleware = require('botkit-middleware-dialogflow')({
-        keyFilename: './newagent-a6d67-08f5e56ab751.json'  // service account private key file from Google Cloud Console
+        keyFilename: './newason'  // service account private key file from Google Cloud Console
       });
 
 
       const slackController = Botkit.slackbot();
       const slackBot = slackController.spawn({
-        token: 'xoxp-480772759907-491402602871-506513767265-3d841a968448e3a8987125d3b5c5ea52',  // Slack API Token
+        token: 'xoxp-480772759907-491402602871-506513762',  // Slack API Token
       });
 
       slackController.middleware.receive.use(dialogflowMiddleware.receive);
@@ -131,11 +131,15 @@ router.post('/bot', function(req, res) {
 
 
 router.post('/slacky', function(req, res) {
+  const en = "https://bots.dialogflow.com/slack/2a02c9ec-de56-4e7e-b103-bb7f6f6adcba/webhook";
+  const es = 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook';
   let body = {
-      url: 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook',
+      url: en,
       form: req.body
   }
 console.log( req.body);
+console.log( "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+console.log( res.body);
 /*  if(req.body.event.upload){
       const linkDownload = req.body.event.files[0].permalink_public.split('/')[3].split('-');
       const fileName = req.body.event.files[0].name.toLowerCase().replace(/ /g, '_');
@@ -171,6 +175,12 @@ request.post(cuerpo, function(error, response, body){
   res.send({
     "challenge": req.body.challenge
   });
+});
+
+router.get('/slacky', function(req, res) {
+  console.log(req.body);
+  console.log("********************");
+  console.log(res.body);
 });
 
 app.use(router);
