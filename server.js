@@ -181,6 +181,8 @@ router.get('/slacky', function(req, res) {
   console.log(req.body);
   console.log("********************");
   console.log(res.body);
+  res.send({
+  });
 });
 
 app.use(router);
