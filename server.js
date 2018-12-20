@@ -7,7 +7,7 @@ const express = require("express"),
       dialogflow = require('dialogflow'),
       { RTMClient } = require('@slack/client');
 
-      const tokenPruebas = 'xoxb-480772759907-491965291030-GvXZLo8aCu0D3CUiv1c0tFbr';
+      const tokenPruebas = 'xoxb-480772759907-508864702578-nzva5YUC9E3mKSRwO';
 
 const sessionClient = new dialogflow.SessionsClient();
 let rtm;
@@ -154,7 +154,7 @@ request.post(cuerpo, function(error, response, body){
 
 inputRequest.session = sessionClient.sessionPath(agenteID, req.body.event.channel);
 inputRequest.queryInput.text.text = req.body.event.text;
-dialogflowRequest(inputRequest, req.body.event.channel);
+//dialogflowRequest(inputRequest, req.body.event.channel);
   res.send({
     "challenge": req.body.challenge
   });
