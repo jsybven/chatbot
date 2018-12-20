@@ -3,77 +3,57 @@ const express = require("express"),
       bodyParser  = require("body-parser"),
       methodOverride = require("method-override"),
       request = require('request'),
-      fs = require('fs');
-/*      const Botkit = require('botkit');
-      const dialogflowMiddleware = require('botkit-middleware-dialogflow')({
-        keyFilename: './newason'  // service account private key file from Google Cloud Console
-      });
+      fs = require('fs'),
+      dialogflow = require('dialogflow'),
+      { RTMClient } = require('@slack/client');
 
+      const tokenPruebas = 'xoxb-480772759907-491965291030-GvXZLo8aCu0D3CUiv1c0tFbr';
 
-      const slackController = Botkit.slackbot();
-      const slackBot = slackController.spawn({
-        token: 'xoxp-480772759907-491402602871-506513762',  // Slack API Token
-      });
-
-      slackController.middleware.receive.use(dialogflowMiddleware.receive);
-      slackBot.startRTM();
-      console.log(slackController);
-      slackController.hears('hello-intent', 'direct_message', dialogflowMiddleware.hears, function(bot, message) {
-        console.log("DSFdfd");
-      });
-*/
-
-
-
-
-
-      /*
-      const dialogflow = require('dialogflow');
 const sessionClient = new dialogflow.SessionsClient();
+let rtm;
 
-// Define session path
-const sessionPath = sessionClient.sessionPath("newagent-a6d67", "d81e3c6d-3e7c-e501-adc5-dc4a83ca3ce9");
-console.log(sessionPath);
-curl -H "Content-Type: application/json; charset=utf-8"  -H "Authorization: Bearer ya29.c.Elp2BnssTCcsettfwcL5qk2YOkRIn70YIE1Clhd2OLHc_a09uEuo9sE7PrFU5kZEtM8O6YxSOVtP2my7eMLPgTMaJfXY5ekoUMUjvcYYxcbdm58dQtHQ68t0zv4"  -d "{\"queryInput\":{\"text\":{\"text\":\"hi\",\"languageCode\":\"es\"}},\"queryParams\":{\"timeZone\":\"America/Buenos_Aires\"}}" "https://dialogflow.googleapis.com/v2beta1/projects/newagent-a6d67/agent/sessions/d81e3c6d-3e7c-e501-adc5-dc4a83ca3ce9:detectIntent"
-sessionClient
-  .detectIntent({
-  "session": sessionPath,
-	"queryInput":{
-	"text":{"text":"hi", "languageCode":"en"}
-	},
-	"queryParams": {
-
-           "payload": {
-    	"data": {
-		    "client_msg_id": "f7723fa8-a99b-4c17-a943-61c27dcab25b",
-			"event_ts": "1542745438.007900",
-			"channel": "DE7763PV4",
-			"text": "hi",
-			"type": "message",
-			"channel_type": "im",
-			"user": "UE527484V",
-			"ts": "1542745438.007900"
-    	}
-	}
-
-        }
+function setSlackTokens() {
+//la key del JSON es el teamID de slack y esta almacenando la instacia de slack
+  rtm = new RTMClient(tokenPruebas);
+  rtm.start();
 }
-)
+setSlackTokens();
+
+
+const conversationId = 'DEEDKPQR1',
+      agenteID = 'newagent-a6d67';
+
+
+const sessionPath = sessionClient.sessionPath(agenteID, conversationId);
+let inputRequest = {
+                      'session': sessionPath,
+                    	"queryInput": {
+                    	"text": { "text":"hi", "languageCode": "es" }
+                    	}
+                    };
+
+function dialogflowRequest(inputRequest, channel){
+  sessionClient
+  .detectIntent(inputRequest)
   .then(responses => {
-    console.log('Detected intent');
     const result = responses[0].queryResult;
-    console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
-    if (result.intent) {
-      console.log(`  Intent: ${result.intent.displayName}`);
-    } else {
-      console.log(`  No intent matched.`);
-    }
+    slackRequestMsg(result.fulfillmentText, conversationId);
   })
   .catch(err => {
     console.error('ERROR:', err);
   });
-*/
+}
+
+function slackRequestMsg(msg, channel){
+  rtm.sendMessage(msg, channel)
+    .then((res) => {
+      // `res` contains information about the posted message
+      console.log('Message sent: ', res);
+    })
+    .catch(console.error);
+}
+
 const requestController = require('./controller/requestController.js');
 const token = 'xoxp-480772759907-491402602871-503248437139-596aa4e92ed76024a9ac65c2d5f0ce53';
 
@@ -171,7 +151,10 @@ request.post(cuerpo, function(error, response, body){
   } else
   console.log("maaaaaaaaaaaaal");
 });*/
-  request.post(body);
+
+inputRequest.session = sessionClient.sessionPath(agenteID, req.body.event.channel);
+inputRequest.queryInput.text.text = req.body.event.text;
+dialogflowRequest(inputRequest, req.body.event.channel);
   res.send({
     "challenge": req.body.challenge
   });
