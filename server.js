@@ -7,7 +7,7 @@ const express = require("express"),
       dialogflow = require('dialogflow'),
       { WebClient } = require('@slack/client');
 
-      const tokenPruebas = 'xoxb-480772759907-491965291030-MhnPEkkcQ2mkt0bI91zb0wZh';
+      const tokenPruebas = 'xoxb-480772759907-4919652910';
 
 const sessionClient = new dialogflow.SessionsClient();
 let rtm;
@@ -29,7 +29,15 @@ let inputRequest = {
                       'session': sessionClient.sessionPath(agenteID, conversationId),
                     	"queryInput": {
                     	"text": { "text":"hi", "languageCode": "es" }
+                    },
+                    queryParams: {
+                      "payload": {
+                        	"data": {
+                    		    "emailUser": "Jeeeeeeypi@hoooootomail.com",
+
+                        	}
                     	}
+                    }
                     };
 
 function dialogflowRequest(inputRequest, channel){
