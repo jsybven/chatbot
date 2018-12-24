@@ -5,28 +5,28 @@ const express = require("express"),
       request = require('request'),
       fs = require('fs'),
       dialogflow = require('dialogflow'),
-      { RTMClient } = require('@slack/client');
+      { WebClient } = require('@slack/client');
 
-      const tokenPruebas = 'xoxb-480772759907-508864702578-nzva5YUC9E3mKSRwO';
+      const tokenPruebas = 'xoxb-480772759907-491965291030-MhnPEkkcQ2mkt0bI91zb0wZh';
 
 const sessionClient = new dialogflow.SessionsClient();
 let rtm;
 
 function setSlackTokens() {
 //la key del JSON es el teamID de slack y esta almacenando la instacia de slack
-  rtm = new RTMClient(tokenPruebas);
-  rtm.start();
+  web = new WebClient(tokenPruebas);
+//  rtm.start();
 }
 setSlackTokens();
 
 
-const conversationId = 'DEEDKPQR1',
+const conversationId = 'DEYRELQ66',
       agenteID = 'newagent-a6d67';
 
 
-const sessionPath = sessionClient.sessionPath(agenteID, conversationId);
+//const sessionPath = sessionClient.sessionPath(agenteID, conversationId);
 let inputRequest = {
-                      'session': sessionPath,
+                      'session': sessionClient.sessionPath(agenteID, conversationId),
                     	"queryInput": {
                     	"text": { "text":"hi", "languageCode": "es" }
                     	}
@@ -37,8 +37,9 @@ function dialogflowRequest(inputRequest, channel){
   .detectIntent(inputRequest)
   .then(responses => {
     const result = responses[0].queryResult;
-    console.log(`  Response: ${result.fulfillmentText}`);
-    slackRequestMsg(result.fulfillmentText, conversationId);
+  //  console.log(`  Response: ${result.fulfillmentText}`);
+    slackRequestMsg(result.fulfillmentText, channel);
+    return;
   })
   .catch(err => {
     console.error('ERROR:', err);
@@ -46,16 +47,11 @@ function dialogflowRequest(inputRequest, channel){
 }
 
 function slackRequestMsg(msg, channel){
-  rtm.sendMessage(msg, channel)
-    .then((res) => {
-      // `res` contains information about the posted message
-      console.log('Message sent: ', res);
-    })
-    .catch(console.error);
+  web.chat.postMessage({ channel: channel, text: msg } ).catch(console.error);
 }
 
 const requestController = require('./controller/requestController.js');
-const token = 'xoxp-480772759907-491402602871-503248437139-596aa4e92ed76024a9ac65c2d5f0ce53';
+const token = 'xoxp-480772759907-481075144165-510383631296-d8721e2ca520fdd10fbcbb33ba8ccd10';
 
 const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -65,15 +61,8 @@ app.use(methodOverride());
 var router = express.Router();
 
 router.get('/', function(req, res) {
-   res.send("Hello World!");
+   res.send("hablame el mio!");
 });
-
-
-
-
-
-
-
 
 
 router.post('/bot', function(req, res) {
@@ -104,12 +93,6 @@ router.post('/bot', function(req, res) {
 
 
 
-
-
-
-
-
-
 router.post('/slacky', function(req, res) {
   const en = "https://bots.dialogflow.com/slack/2a02c9ec-de56-4e7e-b103-bb7f6f6adcba/webhook";
   const es = 'https://bots.dialogflow.com/slack/7f86df03-1d7c-4238-ba5f-adfb9247116b/webhook';
@@ -117,47 +100,37 @@ router.post('/slacky', function(req, res) {
       url: es,
       form: req.body
   }
-console.log( req.body);
-console.log( "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-//console.log( res.body);
-/*  if(req.body.event.upload){
-      const linkDownload = req.body.event.files[0].permalink_public.split('/')[3].split('-');
-      const fileName = req.body.event.files[0].name.toLowerCase().replace(/ /g, '_');
-      body.form.event.text = `https://files.slack.com/files-pri/${linkDownload[0]}-${linkDownload[1]}/${fileName}?pub_secret=${linkDownload[2]}`;
-      console.log(body.form.event.text);
-      request.get('https://slack.com/api/files.sharedPublicURL?token=' + token + '&file='+req.body.event.files[0].id+'&pretty=1', function(reqs, resp) {
-      //  console.log(resp.body);
-        request.get(body.form.event.text).on( 'response', function( res ){
-            res.pipe(fs.createWriteStream( './temp/' + fileName ));
+ //console.log( req.body);
+//console.log( "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+//console.log("qqqqq", req.body.event.upload , req.body.event.client_msg_id);
+if (req.body.event.client_msg_id || req.body.event.upload) {
+  //console.log("qqqqq", req.body.event.upload);
+  if (req.body.event.upload) {
+
+      body.form.event.text = req.body.event.files[0].url_private;
+    //  console.log(body.form.event.text);
+      //  este codigo es para descargar el archivo
+      const fileName = body.form.event.text.split("/");
+        request.get({
+                    url: body.form.event.text,
+                    headers: { 'Content-Type': 'application/json',
+                               'Authorization': 'Bearer xoxb-480772759907-491965291030-MhnPEkkcQ2mkt0bI91zb0wZh'
+                             }
+                    }).on( 'response', function( res ){
+            res.pipe(fs.createWriteStream( './temp/' + fileName[fileName.length-1] ));
          });
-      });
-  }/*
-const cuerpo = {
-  url: 'https://dialogflow.googleapis.com/v2/projects/newagent-a6d67/agent/sessions/d81e3c6d-3e7c-e501-adc5-dc4a83ca3ce9:detectIntent',
-  body: {"queryInput":{
-	"text":{"text":"hi","languageCode":"en"}
-	}
-},
-headers: {
-  Authorization: "Authorization: Bearer ya29.c.Elp1BrYQjumhuCL04qvmNvcsvge7xk-VoUX4xujO26pO7ypC_SMv6K7d7rH0Dao9S6u0vHCiPNTxEEgCLRVN1UBO9iSQE_sXx9Q9ftu0duzPBcsVWv_Ht4CylYU",
-  "Content-Type": "application/json"
-}
-}
+  }
 
-request.post(cuerpo, function(error, response, body){
-  if (!error && response.statusCode == 200) {
-      // Print out the response body
-      console.log(body)
-  } else
-  console.log("maaaaaaaaaaaaal");
-});*/
+    inputRequest.session = sessionClient.sessionPath(agenteID, req.body.event.channel);
+    inputRequest.queryInput.text.text = req.body.event.text;
 
-inputRequest.session = sessionClient.sessionPath(agenteID, req.body.event.channel);
-inputRequest.queryInput.text.text = req.body.event.text;
-//dialogflowRequest(inputRequest, req.body.event.channel);
-  res.send({
+    dialogflowRequest(inputRequest, req.body.event.channel);
+  }
+  res.end();
+/*  res.send({
     "challenge": req.body.challenge
-  });
+  });*/
 });
 
 router.get('/slacky', function(req, res) {

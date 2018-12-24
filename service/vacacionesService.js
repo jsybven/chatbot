@@ -42,7 +42,20 @@ const apis = {
       const parameters = param.parameters;
       response(['%estado'], [`rechazado`], param.inputText, callback);
      });
+  },
+  vacacionesLimpiar: (param, callback) => {
+    slackInfo(param, callback, (param, callback) => {
+      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      param.todo.queryResult.outputContexts.forEach((item) => {
+        item.lifespanCount = 0;
+      });
+      callback.send({
+        'fulfillmentText': param.inputText,
+        'outputContexts': param.todo.queryResult.outputContexts
+      });
+    });
   }
+
 };
 
 //  param.response[param.keyResponse] = param.fulfillmentText.replace('/*name*/', body.user.real_name);
