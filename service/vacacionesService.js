@@ -47,13 +47,15 @@ const apis = {
     slackInfo(param, callback, (param, callback) => {
       // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
       param.todo.queryResult.outputContexts.forEach((item) => {
-        item.lifespanCount = 0;
+        if(item.name.indexOf('vacaciones-solicitrar') === -1){
+          item.lifespanCount = 0;
+        }
       });
       callback.send({
         'fulfillmentText': param.inputText,
         'outputContexts': param.todo.queryResult.outputContexts
       });
-    });
+     });
   }
 
 };
