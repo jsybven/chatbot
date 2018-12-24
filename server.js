@@ -110,8 +110,8 @@ if (req.body.event.client_msg_id || req.body.event.upload) {
 
       body.form.event.text = req.body.event.files[0].url_private;
     //  console.log(body.form.event.text);
-      //  este codigo es para descargar el archivo
       const fileName = body.form.event.text.split("/");
+      //  este codigo es para descargar el archivo
         request.get({
                     url: body.form.event.text,
                     headers: { 'Content-Type': 'application/json',
