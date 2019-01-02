@@ -6,8 +6,9 @@ const express = require("express"),
       fs = require('fs'),
       dialogflow = require('dialogflow'),
       { WebClient } = require('@slack/client');
+      const structjson = require('./structjson.js');
 
-      const tokenPruebas = 'xoxb-480772759907-4919652910';
+      const tokenPruebas = '';
 
 const sessionClient = new dialogflow.SessionsClient();
 let rtm;
@@ -25,22 +26,19 @@ const conversationId = 'DEYRELQ66',
 
 
 //const sessionPath = sessionClient.sessionPath(agenteID, conversationId);
+
 let inputRequest = {
-                      'session': sessionClient.sessionPath(agenteID, conversationId),
-                    	"queryInput": {
-                    	"text": { "text":"hi", "languageCode": "es" }
+                      session: sessionClient.sessionPath(agenteID, conversationId),
+                    	queryInput: {
+                    	text: { "text":"hi", "languageCode": "es" }
                     },
                     queryParams: {
-                      "payload": {
-                        	"data": {
-                    		    "emailUser": "Jeeeeeeypi@hoooootomail.com",
-
-                        	}
-                    	}
-                    }
+                      payload: {}
+                      }
                     };
 
 function dialogflowRequest(inputRequest, channel){
+//  console.log(inputRequest);
   sessionClient
   .detectIntent(inputRequest)
   .then(responses => {
@@ -56,10 +54,11 @@ function dialogflowRequest(inputRequest, channel){
 
 function slackRequestMsg(msg, channel){
   web.chat.postMessage({ channel: channel, text: msg } ).catch(console.error);
+  return;
 }
 
 const requestController = require('./controller/requestController.js');
-const token = 'xoxp-480772759907-481075144165-510383631296-d8721e2ca520fdd10fbcbb33ba8ccd10';
+const token = '';
 
 const PORT = process.env.PORT || 3100
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -79,7 +78,7 @@ router.post('/bot', function(req, res) {
 
   console.log(req.body);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-  console.log(req.body.originalDetectIntentRequest.payload.data);
+  console.log(req.body.originalDetectIntentRequest);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 /*  console.log(req.body.queryResult.fulfillmentMessages);
   console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");*/
@@ -123,7 +122,7 @@ if (req.body.event.client_msg_id || req.body.event.upload) {
         request.get({
                     url: body.form.event.text,
                     headers: { 'Content-Type': 'application/json',
-                               'Authorization': 'Bearer xoxb-480772759907-491965291030-MhnPEkkcQ2mkt0bI91zb0wZh'
+                               'Authorization': 'Bearer'
                              }
                     }).on( 'response', function( res ){
             res.pipe(fs.createWriteStream( './temp/' + fileName[fileName.length-1] ));
@@ -132,6 +131,9 @@ if (req.body.event.client_msg_id || req.body.event.upload) {
 
     inputRequest.session = sessionClient.sessionPath(agenteID, req.body.event.channel);
     inputRequest.queryInput.text.text = req.body.event.text;
+    inputRequest.queryParams.payload = structjson.jsonToStructProto(
+        req.body
+      )
 
     dialogflowRequest(inputRequest, req.body.event.channel);
   }
