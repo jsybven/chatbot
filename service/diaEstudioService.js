@@ -1,44 +1,39 @@
 const request = require('request');
-const {slackInfo} = require('./utilityService.js');
 const {response} = require('../assets/helper.js');
 
-const  controller = (param, callback) => {
-    if(apis[param.action]) {
-      apis[param.action](param, callback);
-    } else {
-      callback.send('no se encontro modulo');
-    }
-};
+function controller(param, callback)  {
+  if(param.action in apis) {
+    return apis[param.action](param, callback);
+  } else {
+    console.log('no se encontro modulo');
+    return 'Ha ocurrido un error al encontrar el modulo, por lo que esta gestion no sera posible procesarla en estos momentos. le pedimos disculpa trabajeremos para solicionarlo pronto';
+  }
+}
 
 const apis = {
   solicitar: (param, callback) => {
-    slackInfo(param, callback, (param, callback) => {
+
       // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
       const parameters = param.parameters;
         //if (param.email) {
-          response(['%parametros'], [`estos son los parametros: ${parameters.date}`], param, callback);
+          response(['%parametros'], [`estos son los parametros: ${parameters.date}`], param);
       /*  } else {
           response([', %name%'], [''], param.inputText, callback);
         }*/
-     });
+
   },
   cancelar: (param, callback) => {
-    slackInfo(param, callback, (param, callback) => {
       // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
       const parameters = param.parameters;
-      response(['%parametros'], [`estos son los parametros: ${param.userEmail}`], param.inputText, callback);
-     });
+      response(['%parametros'], [`estos son los parametros: ${param.userEmail}`], param);
+
   },
   cambiar: (param, callback) => {
-    slackInfo(param, callback, (param, callback) => {
       // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
       const parameters = param.parameters;
-      response(['%parametros'],  [`estos son los parametros: ${parameters.date}`], param.inputText, callback);
-     });
+      response(['%parametros'],  [`estos son los parametros: ${parameters.date}`], param);
   }
 };
 
-//  param.response[param.keyResponse] = param.fulfillmentText.replace('/*name*/', body.user.real_name);
-//  callback.send(param.response);
 
 module.exports.controller = controller;

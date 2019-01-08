@@ -4,7 +4,7 @@ const { WebClient } = require('@slack/client'),
       structjson = require('./structjson.js'),
       fs = require('fs'),
       redis = require('redis');
-
+const fetch = require("node-fetch");
 require('dotenv').config();
 
 const clientRedis = redis.createClient();
@@ -26,23 +26,55 @@ function slackRequestMsg(msg, channel, position){
   return;
 }
 
-function slackUserInfo (user, position){
-  request.get(`https://slack.com/api/users.info?token=${slackConfig[position].tokenAPI}&user=${user}&pretty=1`, function( error, response, body ){
-      body = JSON.parse(body);
-      clientRedis.hmset(user, ['name', body.user.real_name,
-        'email', body.user.profile.email]);
-   });
+async function slackUserInfo (user, provider){
+  return new Promise ((resolve, reject) => {
+    request.get(`https://slack.com/api/users.info?token=${slackConfig[provider.position].tokenAPI}&user=${user}&pretty=1`, function(error, response, body ){
+        body = JSON.parse(body);
+        if (error) {
+          console.error('ERROR al obtener la informacion del usuario Slack');
+          console.log(error);
+          reject(false);
+          return;
+        } else if (!body.ok) {
+          console.error('ERROR al obtener la informacion del usuario Slack');
+          console.log(body.error);
+          reject(false);
+          return;
+        }
+        clientRedis.hmset(user, ['name', body.user.real_name,
+          'email', body.user.profile.email]);
+        resolve({ name: body.user.real_name, email: body.user.profile.email });
+        clientRedis.expire(user, 20 * 60);
+    });
+  });
+
+  /*
+  const res = await fetch(`https://slack.com/api/users.info?token=${slackConfig[provider.position].tokenAPI}&user=${user}&pretty=1`);
+  const body = await res.json();
+  clientRedis.hmset(user, ['name', body.user.real_name,
+    'email', body.user.profile.email]);*/
+  //return { name: body.user.real_name, email: body.user.profile.email };
  }
 
- function redisUserInfoSlack(user) {
-   clientRedis.hgetall(user, function(err, result) {
-     if (err) {
-       console.log(err);
-     }
-     if (!result) {
-       return slackUserInfo(user);
-     }
-     return result;
+function redisUserInfoSlack(user, provider) {
+   return new Promise ((resolve, reject) => {
+    // clientRedis.del(user);
+     clientRedis.hgetall(user, async function(err, result) {
+       if (err) {
+         console.log(err);
+         reject(false);
+       }
+       console.log(result);
+       if (!result) {
+         const userInfo = await slackUserInfo(user, provider).catch((err)=>{});
+         if (userInfo) {
+           resolve(userInfo);
+         } else {
+           reject(false);
+         }
+       }
+       resolve(result);
+     });
    });
  }
 
@@ -58,7 +90,7 @@ function slackUserInfo (user, position){
     });
  }
 
- function slackProcessRequest(req, provider) {
+ async function slackProcessRequest(req, provider) {
    if (req.body.event.client_msg_id || req.body.event.upload) {
      inputRequest.queryInput.text.text = req.body.event.text;
      if (req.body.event.upload) {
@@ -67,12 +99,16 @@ function slackUserInfo (user, position){
          slackDownloadFile('./temp/' + fileName[fileName.length-1], req.body.event.files[0].url_private);*/
      }
      inputRequest.session = sessionClient.sessionPath(agenteID, req.body.event.channel);
-     inputRequest.queryParams.payload = structjson.jsonToStructProto(req.body);
-     const papa = redisUserInfoSlack(req.body.event.user, provider.position);
-     console.log('elll mio ', papa);
+     //inputRequest.queryParams.payload = structjson.jsonToStructProto(req.body);
      provider.channel = req.body.event.channel;
      provider.slackRequestMsg = slackRequestMsg;
-     dialogflowRequest(inputRequest, provider);
+     provider.userInfo = await redisUserInfoSlack(req.body.event.user, provider).catch((err)=>{});
+     if (provider.userInfo) {
+       dialogflowRequest(inputRequest, provider);
+     } else {
+       msg = 'En estemos momentos no podemos autenticar su solicitud, por favor intente mas tarde';
+       slackRequestMsg(msg, provider.channel, provider.position);
+     }
    }
  }
 
