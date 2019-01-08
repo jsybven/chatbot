@@ -26,7 +26,7 @@ function slackRequestMsg(msg, channel, position){
   return;
 }
 
-async function slackUserInfo (user, provider){
+function slackUserInfo (user, provider){
   return new Promise ((resolve, reject) => {
     request.get(`https://slack.com/api/users.info?token=${slackConfig[provider.position].tokenAPI}&user=${user}&pretty=1`, function(error, response, body ){
         body = JSON.parse(body);
@@ -41,10 +41,7 @@ async function slackUserInfo (user, provider){
           reject(false);
           return;
         }
-        clientRedis.hmset(user, ['name', body.user.real_name,
-          'email', body.user.profile.email]);
         resolve({ name: body.user.real_name, email: body.user.profile.email });
-        clientRedis.expire(user, 20 * 60);
     });
   });
 
@@ -58,15 +55,21 @@ async function slackUserInfo (user, provider){
 
 function redisUserInfoSlack(user, provider) {
    return new Promise ((resolve, reject) => {
-    // clientRedis.del(user);
-     clientRedis.hgetall(user, async function(err, result) {
+     //clientRedis.del(user);
+
+     clientRedis.hgetall(user, function(err, result) {
        if (err) {
          console.log(err);
          reject(false);
        }
        console.log(result);
        if (!result) {
-         const userInfo = await slackUserInfo(user, provider).catch((err)=>{});
+         const userInfo = slackUserInfo(user, provider).then((userInfo)=> {
+           clientRedis.hmset(user, ['name', userInfo.name,
+              'email', userInfo.email]);
+            clientRedis.expire(user, 20 * 60);
+            return userInfo;
+         }).catch((err)=>{});
          if (userInfo) {
            resolve(userInfo);
          } else {

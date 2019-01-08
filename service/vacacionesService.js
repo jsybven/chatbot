@@ -20,22 +20,24 @@ const apis = {
     response(['%parametros'], [`estos son los parametros: ${parameters.dateFrom}, ${parameters.dateTo}`], param);
   },
   cancelar: (param, callback) => {
-    // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+    // aqui se debe llamar el servicio
     const parameters = param.parameters;
     response(['%parametros'], [`estos son los parametros: ${param.userEmail}`], param);
   },
-  diasDisponible: async (param, callback) => {
-    return await axios.get('http://localhost:3000/prueba').then((res) => {
+  diasDisponible: (param, callback) => {
+    return axios.get('http://localhost:3000/prueba').then((res) => {
        return response(['%dias'], [res.data.dias], param);
+    }).catch((res)=>{
+      return 'en estos momentos no hes posible procesar su solicitud, por favor intente mas tarde';
     });
   },
   estadoVacaciones: (param, callback) => {
-    // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+    // aqui se debe llamar el servicio
     const parameters = param.parameters;
     response(['%estado'], [`rechazado`], param);
   },
   vacacionesLimpiar: (param, callback) => {
-    // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+    // aqui se debe llamar el servicio
     param.todo.queryResult.outputContexts.forEach(async (item) => {
       if(Object.keys(item.parameters).length > 6){
         await contextsClient.deleteContext({ name: item.name });

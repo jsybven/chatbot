@@ -22,15 +22,8 @@ router.post('/bot', function(req, res) {
   // console.log(req.body.originalDetectIntentRequest.payload.data);
   const action = req.body.queryResult.action;
 
-/*  console.log(req.body);
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-  console.log(req.body.originalDetectIntentRequest);
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-  console.log(req.body.queryResult.fulfillmentMessages);
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");*/
   let param = {
     'user': 'el jean', // req.body.originalDetectIntentRequest.payload.data.user,
-  //  slackConfig[0].tokenAPI,
     'module': (action.indexOf('/') >-1) ? action.split('/')[0] : action,
     'action': (action.indexOf('/') >-1) ? action.split('/')[1] : action,
     'inputText': req.body.queryResult.fulfillmentText || "ocurrior un error",

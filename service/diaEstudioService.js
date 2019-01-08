@@ -12,24 +12,18 @@ function controller(param, callback)  {
 
 const apis = {
   solicitar: (param, callback) => {
-
-      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      // aqui se debe llamar el servicio
       const parameters = param.parameters;
-        //if (param.email) {
-          response(['%parametros'], [`estos son los parametros: ${parameters.date}`], param);
-      /*  } else {
-          response([', %name%'], [''], param.inputText, callback);
-        }*/
-
+      response(['%parametros'], [`estos son los parametros: ${parameters.date}`], param);
   },
   cancelar: (param, callback) => {
-      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      // aqui se debe llamar el servicio
       const parameters = param.parameters;
       response(['%parametros'], [`estos son los parametros: ${param.userEmail}`], param);
 
   },
   cambiar: (param, callback) => {
-      // aqui se debe llamar el servicio para hacer la solicitud de vacaciones
+      // aqui se debe llamar el servicio
       const parameters = param.parameters;
       response(['%parametros'],  [`estos son los parametros: ${parameters.date}`], param);
   }

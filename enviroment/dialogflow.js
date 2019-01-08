@@ -19,7 +19,7 @@ const inputRequest = {
 function dialogflowRequest(inputRequest, provider){
   sessionClient
   .detectIntent(inputRequest)
-  .then(async response => {
+  .then(async (response) => {
   //  console.log(response);
     let text = inputRequest.fulfillmentText
     const result = response[0].queryResult;
